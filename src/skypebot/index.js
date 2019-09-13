@@ -16,7 +16,6 @@ function createSkypeBot(server, handler, config) {
 
   const btHandler = new SkypeHandler(handler)
 
-  console.log(`Registered new skype bot on path: /skype${config.apiPostfix}`)
   server.post('/skype/api/messages', (req, res) => {
     adapter.processActivity(req, res, async ctx => {
       await btHandler.run(ctx)

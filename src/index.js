@@ -1,3 +1,1 @@
-const config = require('../buom.config.js')
-
-require('./buom.js').start(config)
+require('./buom.js').start(require('./buom.config.js'))
