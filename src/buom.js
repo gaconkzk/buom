@@ -9,7 +9,7 @@ function createBot(platform, config) {
 }
 
 const start = (config) => {
-  const handler = require('./handler.js')
+  const handler = require('./handlers')
 
   // Test handlers using console
   if (process.env.CONSOLE === 'true') {
