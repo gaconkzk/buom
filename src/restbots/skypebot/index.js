@@ -1,9 +1,9 @@
+const { BotFrameworkAdapter } = require('botbuilder')
 const SkypeHandler = require('./SkypeHandler.js')
 const SkypeEvent = require('./SkypeEvent.js')
 const SkypeContext = require('./SkypeContext.js')
 
 function createSkypeBot(server, handler, config) {
-  const { BotFrameworkAdapter } = require('botbuilder')
   const adapter = new BotFrameworkAdapter({
     appId: config.appId,
     appPassword: config.appPassword

@@ -1,9 +1,12 @@
+const handlers = require('./handlers')
+const consoleBot = require('./consolebot')
+const restBots = require('./restbots')
+
 const start = (config) => {
-  const handler = require('./handlers')
   if (config.useConsole) {
-    require('./consolebot').start(handler)
+    consoleBot.start(handlers)
   } else {
-    require('./restbots').start(handler, config)
+    restBots.start(handlers, config)
   }
 }
 
