@@ -23,6 +23,10 @@ class SkypeContext {
   sendText(text) {
     return this._client.sendActivity(text)
   }
+
+  static make(ctx, event) {
+    return new SkypeContext({ client: ctx, event })
+  }
 }
 
 module.exports = SkypeContext

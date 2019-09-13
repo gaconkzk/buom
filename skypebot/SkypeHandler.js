@@ -2,28 +2,27 @@ const { ActivityHandler } = require('botbuilder')
 
 const SkypeContext = require('./SkypeContext')
 
+const SkypeEvent = require('./SkypeEvent')
+
 class SkypeHandler extends ActivityHandler {
-  constructor(bhandler) {
+  constructor(handler) {
     super()
 
-    this._bhandler = bhandler
+    this._handler = handler
 
     this.onMessage(async (ctx, next) => {
-      let bctx = this.transformCtx(ctx)
-      await bhandler(bctx)
+      let event = SkypeEvent.make(ctx._activity)
+      let bctx = SkypeContext.make(ctx, event)
+      await this._handler(bctx)
       await next()
     })
 
     this.onConversationUpdate(async (ctx, next) => {
-      let bctx = this.transformCtx(ctx)
-      await bhandler(bctx)
+      let event = SkypeEvent.make(ctx._activity)
+      let bctx = SkypeContext.make(ctx, event)
+      await this._handler(bctx)
       await next()
     })
-  }
-
-  transformCtx(ctx) {
-    let bctx = new SkypeContext({ client: ctx })
-    return bctx
   }
 }
 
