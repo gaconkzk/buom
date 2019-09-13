@@ -1,15 +1,15 @@
 const Context = require('bottender/lib/context/Context').default
 
-// class SkypeContext extends Context {
-class SkypeContext {
+class SkypeContext extends Context {
   constructor({
     client,
     event,
     session,
     initialState
   }) {
-    // super({ event, session, initialState })
+    super({ event, session, initialState })
     this._client = client
+    this._event = event
   }
 
   get platform() {
@@ -21,6 +21,7 @@ class SkypeContext {
   }
 
   sendText(text) {
+    console.log(this._event.text)
     return this._client.sendActivity(text)
   }
 

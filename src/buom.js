@@ -1,35 +1,14 @@
-const config = require('./buom.config.js')
-
-const makeBot = (platforms) => platforms.split(',').map(p => createBot(p))
+const makeBot = (platforms, conf) => platforms.split(',').map(p => createBot(p, conf[p]))
 var skypeEnabled = process.env.SKYPE || false
-function createBot(platform) {
+function createBot(platform, config) {
   switch (platform) {
     case 'slack':
       const { SlackBot } = require('bottender')
-      return new SlackBot(config.slack)
+      return new SlackBot(config)
   }
 }
 
-function createSkypeBot(server, handler) {
-  const { BotFrameworkAdapter } = require('botbuilder')
-  const adapter = new BotFrameworkAdapter({
-    appId: config.skype.appId,
-    appPassword: config.skype.appPassword
-  })
-
-  adapter.onTurnError = async (ctx, err) => {
-    console.error(`\n [onTurnError]: ${err}`)
-    await ctx.sendActivity('lỗi nặng rồi mấy anh chị ơi!')
-  }
-
-  server.post('/skype/api/messages', (req, res) => {
-    adapter.processActivity(req, res, async ctx => {
-      await handler.run(ctx)
-    })
-  })
-}
-
-const start = (port) => {
+const start = (config) => {
   const handler = require('./handler.js')
 
   // Test handlers using console
@@ -50,7 +29,7 @@ const start = (port) => {
       })
     )
 
-    const bots = makeBot(process.env.PLATFORMS)
+    const bots = makeBot(process.env.PLATFORMS, config)
     // share handler for all bot
     bots.forEach(b => {
       b.onEvent(handler)
@@ -59,11 +38,11 @@ const start = (port) => {
     })
 
     if (skypeEnabled) {
-      const { SkypeHandler } = require('./skypebot')
-      createSkypeBot(server, new SkypeHandler(handler))
+      require('./skypebot')
+        .createSkypeBot(server, handler, config.skype)
     }
 
-    server.listen(port || 3978, () => {
+    server.listen(config.port || 3978, () => {
       console.log('server is listening')
     })
   }

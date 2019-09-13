@@ -1,1 +1,0 @@
-require('./buom.js').start()
