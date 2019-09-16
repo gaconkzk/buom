@@ -1,6 +1,6 @@
 const handler = async ctx => {
   // should cover: `message`, `app_mention` events in slack
-  // `message` event in skype
+  // and `message` event in skype
   let user = ctx.session.user
   if (ctx.event.isText) {
     await ctx.sendText(`Hello world. Platform: ${ctx.platform}
