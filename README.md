@@ -25,4 +25,5 @@ Something for me:
     output: intent objects (what user wanna do?)
 
 >(a simple recognizers is command recognizer which recognize command based on CLI pattern)
+
 >(another one is regex recognizer which can recognize command based on regular expression)
