@@ -1,5 +1,13 @@
 const Context = require('bottender/lib/context/Context').default
 
+/**
+ * In Skype, we need to use `  \n` for line break
+ * @param {String} str
+ */
+function fixLineBreak(str) {
+  return str.replace(/\n/g, '  \n')
+}
+
 class SkypeContext extends Context {
   constructor({
     client,
@@ -10,6 +18,39 @@ class SkypeContext extends Context {
     super({ event, session, initialState })
     this._client = client
     this._event = event
+    this._session = session
+  }
+
+  /**
+   * Since the format of slack is good, so it's the default - we gonna
+   * transform the reply to correct format in eah context
+   * FIXME - This not worked
+   * @param {String} msg
+   * @returns Skype Message with correct mention
+   */
+  _addMention(msg) {
+    let user = this._session.user || {}
+    if (!this.event.isMention) {
+      return msg.replace(`<@${user.id}>`, `${user.name || 'You'}`)
+    }
+
+    let text = msg.replace(`<@${user.id}>`, `<at>@${user.id}</at>`)
+    let jsonMsg = {
+      text,
+      entities: [
+        {
+          type: 'Mention',
+          text: `@${user.id}`,
+          textFormat: 'markdown',
+          mentioned: {
+            name: `${user.name}`,
+            id: user.id
+          }
+        }
+      ]
+    }
+
+    return jsonMsg
   }
 
   get platform() {
@@ -21,12 +62,19 @@ class SkypeContext extends Context {
   }
 
   sendText(text) {
-    console.log(this._event.text)
-    return this._client.sendActivity(text)
+    return this._client.sendActivity(
+      this._addMention(
+        fixLineBreak(text)
+      )
+    )
   }
 
   static make(ctx, event) {
-    return new SkypeContext({ client: ctx, event })
+    let session = {
+      user: event._rawEvent.from
+    }
+
+    return new SkypeContext({ client: ctx, event, session })
   }
 }
 

@@ -8,7 +8,20 @@ class SkypeEvent {
   }
 
   get isText() {
+    return this.isMessage
+  }
+
+  get isMessage() {
     return !!(this._rawEvent.text && this._rawEvent.type === 'message')
+  }
+
+  get isMention() {
+    let entities = this._rawEvent.entities
+    return entities && entities.length
+  }
+
+  get message() {
+    return this.text
   }
 
   get text() {

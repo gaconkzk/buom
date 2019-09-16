@@ -2,9 +2,12 @@ const express = require('express')
 const bodyParser = require('body-parser')
 
 const { SlackBot } = require('bottender')
+
 const { registerRoutes } = require('@bottender/express')
 
 const { createSkypeBot } = require('./skypebot')
+
+require('./extras')
 
 const makeBot = (conf) => conf.platforms.split(',').map(p => createBot(p, conf[p]))
 
