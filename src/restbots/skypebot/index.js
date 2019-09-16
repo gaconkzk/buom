@@ -1,30 +1,36 @@
 const { BotFrameworkAdapter } = require('botbuilder')
-const SkypeHandler = require('./SkypeHandler.js')
-const SkypeEvent = require('./SkypeEvent.js')
-const SkypeContext = require('./SkypeContext.js')
+const SkypeTransformer = require('./SkypeTransformer.js')
 
-function createSkypeBot(server, handler, config) {
-  const adapter = new BotFrameworkAdapter({
-    appId: config.appId,
-    appPassword: config.appPassword
-  })
+class SkypeBot {
+  constructor(config) {
+    this._connector = new BotFrameworkAdapter({
+      appId: config.appId,
+      appPassword: config.appPassword
+    })
 
-  adapter.onTurnError = async (ctx, err) => {
-    console.error(`\n [onTurnError]: ${err}`)
-    await ctx.sendActivity('lỗi nặng rồi mấy anh chị ơi!')
+    this._connector.platform = 'skype'
+    this._connector.onTurnError = async (ctx, err) => {
+      console.error(`\n [onTurnError]: ${err}`)
+      await ctx.sendActivity('lỗi nặng rồi mấy anh chị ơi!')
+    }
   }
 
-  const btHandler = new SkypeHandler(handler)
+  get connector() {
+    return this._connector
+  }
+}
 
-  server.post('/skype/api/messages', (req, res) => {
-    adapter.processActivity(req, res, async ctx => {
-      await btHandler.run(ctx)
+function registerSkypeRoutes(server, bot, route, handler) {
+  const skypeTransformer = new SkypeTransformer(handler)
+
+  server.post(route.path, (req, res) => {
+    bot.connector.processActivity(req, res, async ctx => {
+      await skypeTransformer.run(ctx)
     })
   })
 }
 
 module.exports = {
-  SkypeEvent,
-  SkypeContext,
-  createSkypeBot
+  SkypeBot,
+  registerSkypeRoutes
 }

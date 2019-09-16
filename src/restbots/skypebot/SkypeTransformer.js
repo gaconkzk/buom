@@ -4,7 +4,7 @@ const SkypeContext = require('./SkypeContext')
 
 const SkypeEvent = require('./SkypeEvent')
 
-class SkypeHandler extends ActivityHandler {
+class SkypeTransformer extends ActivityHandler {
   constructor(handler) {
     super()
 
@@ -26,4 +26,4 @@ class SkypeHandler extends ActivityHandler {
   }
 }
 
-module.exports = SkypeHandler
+module.exports = SkypeTransformer
