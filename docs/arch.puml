@@ -7,10 +7,12 @@ component buom {
   }
 }
 
-buom --> handler: use
-
 component handler {
 }
+
+consoleBot - restBots: or
+
+buom --> handler: use
 
 note bottom of skypeBot: Microsoft Botbuilder Framework
 note top of buom: based bottender framework
