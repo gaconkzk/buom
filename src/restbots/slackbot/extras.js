@@ -2,7 +2,7 @@ const pascalCase = require('pascal-case')
 
 const { SlackEvent } = require('bottender')
 
-// grouping special events with comment ones
+// grouping special events with common ones
 const groups = [
   {
     message: ['app_mention'],
