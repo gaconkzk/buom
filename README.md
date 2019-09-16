@@ -17,11 +17,11 @@ Something for me:
 - I'll tried to make it as generic for multiple usages scenarios as possible
 
 #### design challenge #1:
+design handlers recognizer:
 
-- design handlers recognizer:
-    + input: msg (plain text)
-    + process: walk msg through multiple recognizers, return processed data using first one that can recognize the msg
-    + output: intent objects (what user wanna do?)
+  + input: msg (plain text)
+  + process: walk msg through multiple recognizers, return processed data using first one that can recognize the msg
+  + output: intent objects (what user wanna do?)
 
 >(a simple recognizers is command recognizer which recognize command based on CLI pattern)
 
