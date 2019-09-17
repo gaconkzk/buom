@@ -21,6 +21,9 @@ Something for me:
 
   + input: msg (plain text)
   + process: walk msg through multiple recognizers, return processed data using first one that can recognize the msg
+
+![Logic](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://github.com/gaconkzk/buom/raw/master/docs/matchers.puml)
+
   + output: intent objects (what user wanna do?)
 
 >(a simple recognizers is command recognizer which recognize command based on CLI pattern)

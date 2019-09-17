@@ -1,0 +1,28 @@
+@startuml matchers run
+@startuml matcher
+start
+
+:i=0;
+
+while (i < matchers.length?)
+  :take matcher at #i;
+  :intent = matcher.match;
+
+  if (have intent?) then (yes)
+    :printer print context and intent;
+    stop
+  else (no)
+    :increase i;
+  endif
+endwhile
+
+if (i == matchers.length?) then (yes)
+  :printer print context and unknown intent;
+else (no)
+endif
+
+stop
+
+@enduml
+
+@enduml

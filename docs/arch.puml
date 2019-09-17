@@ -1,5 +1,4 @@
 @startuml buom arch design
-allow_mixing
 
 component buom {
   component consoleBot
@@ -8,6 +7,8 @@ component buom {
     component skypeBot
   }
 }
+
+[config]
 
 component processor {
   component printers {
@@ -24,12 +25,12 @@ component matchers {
 
 consoleBot - restBots: or
 
+buom --> config: use
+
 consoleBot --> processor: startWith
 restBots --> processor: startWith
 
 processor --> matchers: matching
-
-helloMatcher - witaiMatcher: or
 
 note bottom of skypeBot: Microsoft Botbuilder Framework
 note top of buom: based bottender framework
