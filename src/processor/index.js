@@ -1,8 +1,10 @@
+const MessagePrinter = require('./printer')
+
 class MessageProcessor {
-  constructor(config, printer) {
+  constructor(config) {
     this._config = config
     this._matchers = []
-    this._printer = printer
+    this._printer = new MessagePrinter(config.printer)
 
     this.addMatcher(helloMatcher)
 

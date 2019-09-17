@@ -3,7 +3,6 @@ const data = require('./default-data.json')
 const pickRan = (items) => items && items[Math.floor(Math.random()*items.length)]
 
 const format = (...params) => {
-  console.log(params)
   if (params.length < 2) {
     return params[0]
   }

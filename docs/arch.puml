@@ -1,18 +1,35 @@
 @startuml buom arch design
+allow_mixing
+
 component buom {
   component consoleBot
   component restBots {
-    [slackBot]
-    [skypeBot]
+    component slackBot
+    component skypeBot
   }
 }
 
-component handler {
+component processor {
+  component printers {
+    database mongo
+    database constant
+    note top of printers: print answers (from json/database)
+  }
+}
+
+component matchers {
+  component helloMatcher
+  component witaiMatcher
 }
 
 consoleBot - restBots: or
 
-buom --> handler: use
+consoleBot --> processor: startWith
+restBots --> processor: startWith
+
+processor --> matchers: matching
+
+helloMatcher - witaiMatcher: or
 
 note bottom of skypeBot: Microsoft Botbuilder Framework
 note top of buom: based bottender framework
