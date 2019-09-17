@@ -1,10 +1,9 @@
-@startuml matchers run
 @startuml matcher
 start
 
 :i=0;
 
-while (i < matchers.length?)
+while (i < matchers.length?) is (yes)
   :take matcher at #i;
   :intent = matcher.match;
 
@@ -14,7 +13,7 @@ while (i < matchers.length?)
   else (no)
     :increase i;
   endif
-endwhile
+endwhile (no)
 
 if (i == matchers.length?) then (yes)
   :printer print context and unknown intent;
@@ -22,7 +21,5 @@ else (no)
 endif
 
 stop
-
-@enduml
 
 @enduml
