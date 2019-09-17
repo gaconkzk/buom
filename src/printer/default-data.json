@@ -1,0 +1,43 @@
+{
+  "drink.location": [
+    "La Cà - Ngô Thị Thu Minh ố ô ỳe ye",
+    "La Cà - Đường Phố - Hoàng Sa - Bờ kè thoáng mát hợp vệ sinh ngon lắm anh êy",
+    "1B - Thích Quảng Đức Bưởi da trắng, Cam Đào Mận Xoài đủ cả (heart)",
+    "Nhậu thì ra 45 - Phan Đăng Lưu, thơm mũi mát mắt nha mấy anh"
+  ],
+  "swear.me": [
+    "sao anh chửi em?",
+    "em vô tội",
+    "ngon nhào vô đi!",
+    "cám ơn, anh cũng vậy"
+  ],
+  "unknown": [
+    "xin lỗi, em bị ngu",
+    "xin lỗi, em chỉ là con bot.",
+    "à, hiểu, mà hỏi người khác đi nha",
+    "trời xanh xanh ngát xanh gió tung tăng trên lá xanh!"
+  ],
+  "bug": [
+    "bug!!! BUG!!!!!",
+    "lỗi nặng rồi!! CỨU với",
+    "xong! chắc server chết rồi!"
+  ],
+  "conversation.greeting": [
+    "xin chào",
+    "konichiwa",
+    "hai hai",
+    "hello",
+    "chào anh"
+  ],
+  "conversation.bye": [
+    "tạm biệt",
+    "bái bai",
+    "good bye"
+  ],
+  "conversation.khen": [
+    "chiện nhỏ",
+    "(heart)",
+    "cảm ơn",
+    "mọi chuyện dễ cứ để em lo cho"
+  ]
+}

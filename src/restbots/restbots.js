@@ -17,9 +17,9 @@ const makeBot = (conf) => conf.platforms.split(',').map(p => _createBot(p, conf[
 
 function addRoutes(server, bot, route, handler) {
   if (bot.connector.platform === 'skype') {
-    registerSkypeRoutes(server, bot, route, handler)
+    registerSkypeRoutes(server, bot, route, handler.run)
   } else {
-    bot.onEvent(handler)
+    bot.onEvent(handler.run)
     registerRoutes(server, bot, route)
   }
 }
