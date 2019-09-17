@@ -17,7 +17,7 @@ Something for me:
 - I'll tried to make it as generic for multiple usages scenarios as possible
 
 #### design challenge #1:
-design handlers recognizer:
+[x] design handlers recognizer:
 
   + input: msg (plain text)
   + process: walk msg through multiple recognizers, return processed data using first one that can recognize the msg
@@ -26,3 +26,9 @@ design handlers recognizer:
 >(a simple recognizers is command recognizer which recognize command based on CLI pattern)
 
 >(another one is regex recognizer which can recognize command based on regular expression)
+
+#### design challenge #2:
+[ ] loading data from db for answer
+
+#### design challenge #3:
+[ ] conversation chat
