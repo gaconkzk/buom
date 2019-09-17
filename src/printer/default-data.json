@@ -26,8 +26,9 @@
     "xin chào",
     "konichiwa",
     "hai hai",
-    "hello",
-    "chào anh"
+    "hello {}",
+    "chào anh",
+    "chào {}"
   ],
   "conversation.bye": [
     "tạm biệt",

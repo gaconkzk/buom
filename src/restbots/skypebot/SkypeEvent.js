@@ -16,8 +16,7 @@ class SkypeEvent {
   }
 
   get isMention() {
-    let entities = this._rawEvent.entities
-    return entities && entities.length
+    return true
   }
 
   get message() {

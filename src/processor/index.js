@@ -25,13 +25,13 @@ class MessageProcessor {
       let intent = await matcher(ctx.event)
       if (intent) {
         // console.log(JSON.stringify(intent, null, 2))
-        this._printer.print(ctx, intent)
+        await this._printer.print(ctx, intent)
         break
       }
     }
 
     if (i == this.matchers.length) {
-      this._printer.print(ctx, {
+      await this._printer.print(ctx, {
         type: 'unknown'
       })
     }

@@ -34,14 +34,13 @@ class SkypeContext extends Context {
       return msg.replace(`<@${user.id}>`, `${user.name || 'You'}`)
     }
 
-    let text = msg.replace(`<@${user.id}>`, `<at>@${user.id}</at>`)
+    let text = msg.replace(`<@${user.id}>`, `<at>${user.name}</at>`)
     let jsonMsg = {
       text,
       entities: [
         {
-          type: 'Mention',
-          text: `@${user.id}`,
-          textFormat: 'markdown',
+          type: 'mention',
+          text: `<at>${user.name}</at>`,
           mentioned: {
             name: `${user.name}`,
             id: user.id
