@@ -26,10 +26,9 @@ class MessagePrinter {
   }
   async print(ctx, obj) {
     let user = ctx.session.user
+    let msg = format(pickRan(this._answers[obj.type]), user ? `<@${user.id}>` : '')
     if (ctx.event.isText) {
-      await ctx.sendText(
-        format(pickRan(this._answers[obj.type]), user ? `<@${user.id}>` : '')
-      )
+      await ctx.sendText(msg)
     }
   }
 }

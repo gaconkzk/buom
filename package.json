@@ -8,7 +8,6 @@
     "body-parser": "^1.19.0",
     "botbuilder": "^4.5.3",
     "bottender": "^1.0.0-alpha.6",
-    "bottender-compose": "^0.13.0",
     "dotenv": "^8.1.0",
     "express": "^4.17.1",
     "mongodb": "^3.3.2",
