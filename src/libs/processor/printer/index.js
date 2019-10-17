@@ -6,7 +6,7 @@ const format = (...params) => {
   if (params.length < 2) {
     return params[0]
   }
-  let fstr = new String(params[0])
+  let fstr = String(params[0])
   for (let i = 1; i < params.length; i++) {
     let ssi = fstr.indexOf("{}")
     if (ssi >= 0) {
@@ -22,13 +22,12 @@ const format = (...params) => {
 class MessagePrinter {
   constructor() {
     this._answers = data
-    this.print = this.print.bind(this)
-  }
-  async print(ctx, obj) {
-    let user = ctx.session.user
-    let msg = format(pickRan(this._answers[obj.type]), user ? `<@${user.id}>` : '')
-    if (ctx.event.isText) {
-      await ctx.sendText(msg)
+    this.print = async (ctx, obj) => {
+      let user = ctx.session.user
+      let msg = format(pickRan(this._answers[obj.type]), user ? `<@${user.id}>` : user)
+      if (ctx.event.isText) {
+        await ctx.sendText(msg)
+      }
     }
   }
 }

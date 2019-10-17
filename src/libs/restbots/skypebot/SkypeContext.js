@@ -1,11 +1,15 @@
-const Context = require('bottender/lib/context/Context').default
+const Context = require('bottender/dist/context/Context').default
 
 /**
  * In Skype, we need to use `  \n` for line break
  * @param {String} str
  */
-function fixLineBreak(str) {
-  return str.replace(/\n/g, '  \n')
+function fixLineBreak(msg) {
+  if (typeof msg === 'string') {
+    return msg.replace(/\n/g, '  \n')
+  } else {
+    return msg.text.replace(/\n/g, '  \n')
+  }
 }
 
 class SkypeContext extends Context {
@@ -34,7 +38,11 @@ class SkypeContext extends Context {
       return msg.replace(`<@${user.id}>`, `${user.name || 'You'}`)
     }
 
-    let text = msg.replace(`<@${user.id}>`, `<at>${user.name}</at>`)
+    let text = msg.text
+    if (typeof msg === 'string') {
+      text = msg.replace(`<@${user.id}>`, `<at>${user.name}</at>`)
+    }
+
     let jsonMsg = {
       text,
       entities: [
@@ -60,10 +68,10 @@ class SkypeContext extends Context {
     return await this._client.sendActivity(msg)
   }
 
-  sendText(text) {
+  sendText(msg) {
     return this._client.sendActivity(
       this._addMention(
-        fixLineBreak(text)
+        fixLineBreak(msg)
       )
     )
   }

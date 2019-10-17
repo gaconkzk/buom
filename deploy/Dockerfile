@@ -1,0 +1,41 @@
+FROM node:10.16.3-alpine
+
+WORKDIR /home/buom/app
+
+COPY package.json .
+COPY yarn.lock .
+
+RUN yarn
+
+COPY src src
+
+ENV PLATFORMS=
+
+ENV GOOGLE_API_KEY=
+ENV GOOGLE_CUSTOM_SEARCH_ENGINE_ID=
+
+# skype need those
+ENV MICROSOFT_APP_ID=
+ENV MICROSOFT_APP_PASSWORD=
+
+# mongo??
+ENV PROD_MONGODB=
+# 3rd vietlot
+ENV VIETLOFT_PREDICT_URL=
+ENV WIT_APP_ID=
+ENV WIT_SERVER_ACCESS_TOKEN=
+
+# Found under Basic Information
+ENV SLACK_CLIENT_ID=
+ENV SLACK_CLIENT_SECRET=
+ENV SLACK_SIGNING_SECRET=
+ENV SLACK_VERIFICATION_TOKEN=
+# Found under Install App
+ENV SLACK_AUTH_TOKEN=
+ENV SLACK_BOT_USER_AUTH_TOKEN=
+# me in chat messages
+ENV SLACK_ME_TEXT=
+
+EXPOSE 3978
+
+CMD ["node", "./src/index.js"]

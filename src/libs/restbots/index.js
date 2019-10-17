@@ -15,8 +15,9 @@ function start(handler, config) {
 
   initializeBots(server, handler, config)
 
-  server.listen(config.port || 3978, () => {
-    console.log('server is listening')
+  let port = config.port || 3978
+  server.listen(port, () => {
+    console.log(`server is listening at ${port}`)
   })
 }
 

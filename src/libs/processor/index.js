@@ -8,7 +8,24 @@ class MessageProcessor {
 
     this.addMatcher(helloMatcher)
 
-    this.run = this.run.bind(this)
+    this.run = async (ctx) => {
+      let i
+      for (i = 0; i < this.matchers.length; i++) {
+        let matcher = this.matchers[i]
+        let intent = await matcher(ctx.event)
+        if (intent) {
+          // console.log(JSON.stringify(intent, null, 2))
+          await this._printer.print(ctx, intent)
+          break
+        }
+      }
+
+      if (i == this.matchers.length) {
+        await this._printer.print(ctx, {
+          type: 'unknown'
+        })
+      }
+    }
   }
 
   get matchers() {
@@ -18,25 +35,6 @@ class MessageProcessor {
   addMatcher(matcher) {
     matcher.option = this._config[matcher.name]
     this.matchers.push(matcher)
-  }
-
-  async run(ctx) {
-    let i
-    for (i = 0; i < this.matchers.length; i++) {
-      let matcher = this.matchers[i]
-      let intent = await matcher(ctx.event)
-      if (intent) {
-        // console.log(JSON.stringify(intent, null, 2))
-        await this._printer.print(ctx, intent)
-        break
-      }
-    }
-
-    if (i == this.matchers.length) {
-      await this._printer.print(ctx, {
-        type: 'unknown'
-      })
-    }
   }
 }
 
