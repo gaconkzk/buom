@@ -22,6 +22,18 @@ module.exports = {
     }
   },
   processor: {
-    printer: {}
+    handler: {
+      intents: [
+        {
+          name: "find.image",
+          handle: "GoogleSearchHandler",
+          envs: {
+            apiKey: process.env.GOOGLE_API_KEY,
+            searchEngineId: process.env.GOOGLE_CUSTOM_SEARCH_ENGINE_ID
+          }
+        }
+      ],
+      printer: {}
+    }
   }
 }

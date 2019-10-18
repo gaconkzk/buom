@@ -12,16 +12,19 @@ component restBots {
 
 package "processors" as po {
   component MessageProcessor as processor
-  package "printers" as p {
-    component printers
-    database mongo
-    database constant
-  }
-
-  note top of printers: print answers (from json/database)
   component matchers {
     component helloMatcher
     component witaiMatcher
+  }
+
+  component handler {
+    () GoogleSearchHandler
+    package "printers" as p {
+      component printer
+      database mongo
+      database constant
+    }
+    note top of printers: print answers (from json/database)
   }
 }
 
@@ -32,7 +35,10 @@ buom --> restBots: use
 processor --> witaiMatcher
 processor --> helloMatcher
 
-processor -> printers
+processor --> handler: process intent
+
+handler --> printer
+GoogleSearchHandler -> printer
 
 printers --> constant
 printers --> mongo

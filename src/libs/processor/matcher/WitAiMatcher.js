@@ -3,7 +3,7 @@ const Wit = require('node-wit').Wit
 // choose best entity in order
 const trained = ['drink', 'find', 'conversation', 'swear', 'change', 'massage']
 
-class WitAiProcessor {
+class WitAiMatcher {
   constructor(config) {
     this._client = new Wit({
       accessToken: config.serverAccessToken
@@ -34,4 +34,4 @@ class WitAiProcessor {
   }
 }
 
-module.exports = WitAiProcessor
+module.exports = WitAiMatcher

@@ -22,7 +22,8 @@ const format = (...params) => {
 class MessagePrinter {
   constructor() {
     this._answers = data
-    this.print = async (ctx, obj) => {
+    this.print = async (ctx) => {
+      let obj = ctx.intent
       let user = ctx.session.user
       let msg = format(pickRan(this._answers[obj.type]), user ? `<@${user.id}>` : user)
       if (ctx.event.isText) {

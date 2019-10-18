@@ -1,10 +1,10 @@
-const MessagePrinter = require('./printer')
+const MessageHandler = require('./handler')
 
 class MessageProcessor {
   constructor(config) {
     this._config = config
     this._matchers = []
-    this._printer = new MessagePrinter(config.printer)
+    this._handler = new MessageHandler(config.handler || {})
 
     this.addMatcher(helloMatcher)
 
@@ -14,16 +14,15 @@ class MessageProcessor {
         let matcher = this.matchers[i]
         let intent = await matcher(ctx.event)
         if (intent) {
-          // console.log(JSON.stringify(intent, null, 2))
-          await this._printer.print(ctx, intent)
+          ctx.intent = intent
+          await this._handler.process(ctx)
           break
         }
       }
 
       if (i == this.matchers.length) {
-        await this._printer.print(ctx, {
-          type: 'unknown'
-        })
+        ctx.intent = { type: 'unknown' }
+        await this._handler.process(ctx)
       }
     }
   }
