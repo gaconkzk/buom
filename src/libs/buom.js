@@ -1,6 +1,4 @@
 const MessageProcessor = require('./processor')
-const WitAiMatcher = require('./processor/matcher/WitAiMatcher')
-
 const consoleBot = require('./consolebot')
 const restBots = require('./restbots')
 
