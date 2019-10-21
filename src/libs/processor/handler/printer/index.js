@@ -19,16 +19,27 @@ const format = (...params) => {
   return fstr
 }
 
+function makeImgMsg(img) {
+  return img.url
+}
+
 class MessagePrinter {
   constructor() {
     this._answers = data
-    this.print = async (ctx) => {
+    this.print = async (ctx, msg) => {
       let obj = ctx.intent
       let user = ctx.session.user
-      let msg = format(pickRan(this._answers[obj.type]), user ? `<@${user.id}>` : user)
+      let answer = msg || format(pickRan(this._answers[obj.type]), user ? `<@${user.id}>` : user)
       if (ctx.event.isText) {
-        await ctx.sendText(msg)
+        await ctx.sendText(answer)
       }
+    }
+
+    this.printImgs = async (ctx, imgs) => {
+      let imgMsgs = imgs.map(makeImgMsg)
+      imgMsgs.forEach(async i => {
+        await ctx.sendText(i)
+      })
     }
   }
 }

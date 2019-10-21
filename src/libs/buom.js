@@ -5,10 +5,8 @@ const consoleBot = require('./consolebot')
 const restBots = require('./restbots')
 
 const start = (config) => {
-  const processor = new MessageProcessor(config.processor)
-
-  const witai = new WitAiMatcher(config.matchers.witai)
-  processor.addMatcher(witai.match)
+  let botname = config.name
+  const processor = new MessageProcessor(botname, config.matchers, config.processor)
 
   if (config.useConsole) {
     consoleBot.start(processor)
