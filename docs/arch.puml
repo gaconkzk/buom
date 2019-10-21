@@ -17,8 +17,9 @@ package "processors" as po {
     component witaiMatcher
   }
 
-  component handler {
-    () GoogleSearchHandler
+  component handlers {
+    component GoogleSearchHandler
+    component defaultHandler
     package "printers" as p {
       component printer
       database mongo
@@ -32,16 +33,16 @@ buom -> config: use
 buom --> consoleBot: use
 buom --> restBots: use
 
-processor --> witaiMatcher
-processor --> helloMatcher
+processor --> witaiMatcher: match
+processor --> helloMatcher: match
 
-processor --> handler: process intent
+processor --> handlers: process
 
-handler --> printer
-GoogleSearchHandler -> printer
+defaultHandler --> printers: use
+GoogleSearchHandler -> printers: use
 
-printers --> constant
-printers --> mongo
+printers --> constant: is
+printers --> mongo: is
 
 consoleBot --> processor: startWith
 restBots --> processor: startWith
