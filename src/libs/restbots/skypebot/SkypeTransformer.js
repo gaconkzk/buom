@@ -16,13 +16,6 @@ class SkypeTransformer extends ActivityHandler {
       await this._handler(bctx)
       await next()
     })
-
-    // this.onConversationUpdate(async (ctx, next) => {
-    //   let event = SkypeEvent.make(ctx._activity)
-    //   let bctx = SkypeContext.make(ctx, event)
-    //   await this._handler(bctx)
-    //   await next()
-    // })
   }
 }
 

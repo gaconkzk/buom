@@ -23,13 +23,21 @@ function makeImgMsg(img) {
   return img.url
 }
 
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+}
+
 class MessagePrinter {
   constructor() {
     this._answers = data
     this.print = async (ctx, msg) => {
       let obj = ctx.intent
       let user = ctx.session.user
-      let answer = msg || format(pickRan(this._answers[obj.type]), user ? `<@${user.id}>` : user)
+      let answer = msg || { text: this._answers[obj.type] }
+      answer.text = format(answer.text, user ? `<@${user.id}>` : user)
+
       if (ctx.event.isText) {
         await ctx.sendText(answer)
       }
@@ -37,7 +45,7 @@ class MessagePrinter {
 
     this.printImgs = async (ctx, imgs) => {
       let imgMsgs = imgs.map(makeImgMsg)
-      imgMsgs.forEach(async i => {
+      asyncForEach(imgMsgs, async i => {
         await ctx.sendText(i)
       })
     }

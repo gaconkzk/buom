@@ -6,7 +6,7 @@ class MessageHandler {
     this._actions = []
     this._actions['unknown'] = {
       go: async (ctx) => {
-        this._printer.print(ctx)
+        await this._printer.print(ctx)
       }
     }
 

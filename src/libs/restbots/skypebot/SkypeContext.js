@@ -23,6 +23,21 @@ class SkypeContext extends Context {
     this._client = client
     this._event = event
     this._session = session
+
+    this.sendActivity = (msg) => {
+      this._client.sendActivity(msg)
+        .catch(_ => {
+          // FIXME: stupid err but i don't know how to fix, ignored
+        })
+    }
+
+    this.sendText = async (msg) => {
+      await this.sendActivity(
+        this._addMention(
+          fixLineBreak(msg)
+        )
+      )
+    }
   }
 
   /**
@@ -62,18 +77,6 @@ class SkypeContext extends Context {
 
   get platform() {
     return 'skype'
-  }
-
-  async sendActivity(msg) {
-    return await this._client.sendActivity(msg)
-  }
-
-  sendText(msg) {
-    return this._client.sendActivity(
-      this._addMention(
-        fixLineBreak(msg)
-      )
-    )
   }
 
   static make(ctx, event) {

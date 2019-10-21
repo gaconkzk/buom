@@ -35,6 +35,7 @@ class GoogleSearchHandler {
         return
       }
 
+      this._printer.print(ctx, { text: `chờ em xí, đang kiếm hình \`${query}\` nha {}`})
       let quatities = this._getQuatities(entities.number || [])
       let logic = this._getLogic(entities.logic || [])
 
