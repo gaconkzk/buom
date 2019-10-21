@@ -33,6 +33,7 @@ module.exports = {
           name: "find.image",
           handle: "GoogleSearchHandler",
           envs: {
+            baseURL: "https://www.googleapis.com/customsearch/v1",
             apiKey: process.env.GOOGLE_API_KEY,
             searchEngineId: process.env.GOOGLE_CUSTOM_SEARCH_ENGINE_ID
           }

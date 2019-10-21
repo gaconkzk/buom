@@ -35,7 +35,7 @@ class MessagePrinter {
     this.print = async (ctx, msg) => {
       let obj = ctx.intent
       let user = ctx.session.user
-      let answer = msg || { text: this._answers[obj.type] }
+      let answer = msg || { text: pickRan(this._answers[obj.type]) }
       answer.text = format(answer.text, user ? `<@${user.id}>` : user)
 
       if (ctx.event.isText) {

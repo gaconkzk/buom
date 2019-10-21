@@ -21,6 +21,8 @@ class GoogleSearchHandler {
       fields: 'items(link, mime)'
     }
 
+    this._api = axios.create({ baseURL: envs.baseURL })
+
     this._printer = printer
 
     this.go = async (ctx) => {
@@ -92,18 +94,18 @@ class GoogleSearchHandler {
       params: Object.assign({ q: query }, this._googleApis)
     }
 
-    let response = await axios.get('https://www.googleapis.com/customsearch/v1', params)
+    let response = await this._api.get('', params)
     if (response) {
       let images = this._takeByLogic(logic, quatities, response.data.items || [])
       if (!images || !images.length) {
-        await this._printer.print(ctx, "hong có hình là hong có hình!!!")
+        await this._printer.print(ctx, { text: 'hong có hình là hong có hình!!!' })
 
         return
       }
 
       await this._printer.printImgs(ctx, images.map(i => ({ url: i.link, mime: i.mime })))
     } else {
-      await this._printer.print(ctx, "hong có hình là hong có hình!!!")
+      await this._printer.print(ctx, { text: 'hong có hình là hong có hình!!!' })
     }
   }
 }
