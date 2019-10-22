@@ -78,10 +78,14 @@ class SkypeContext extends Context {
 
   makeImgMsg(img) {
     return Object.assign(CardFactory.heroCard(
-      img.name || '',
-      img.address || img.link,
+      img.name,
+      img.address,
       CardFactory.images([img.url]),
-      []
+      CardFactory.actions([{
+        type: 'openUrl',
+        title: 'Details',
+        value: img.link
+      }])
     ), img)
   }
 
