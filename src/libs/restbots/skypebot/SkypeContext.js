@@ -1,5 +1,5 @@
 const Context = require('bottender/dist/context/Context').default
-const { MessageFactory, CardFactory } = require('botbuilder')
+const { CardFactory } = require('botbuilder')
 /**
  * In Skype, we need to use `  \n` for line break
  * @param {String} str

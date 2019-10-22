@@ -22,6 +22,7 @@ groups.forEach(o => {
   })
 })
 
+// `makeImgMsg` function for the image card render on slack
 SlackContext.prototype.makeImgMsg = (img) => {
   return Object.assign(img, {
     fallback: img.name || '',
