@@ -37,6 +37,13 @@ module.exports = {
             apiKey: process.env.GOOGLE_API_KEY,
             searchEngineId: process.env.GOOGLE_CUSTOM_SEARCH_ENGINE_ID
           }
+        },
+        {
+          name: "drink.location",
+          handle: "FoodySearchHandler",
+          envs: {
+            baseURL: "https://www.foody.vn/__get/AutoComplete/Keywords"
+          }
         }
       ],
       printer: {}

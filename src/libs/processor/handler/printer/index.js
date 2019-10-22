@@ -1,3 +1,5 @@
+const { MessageFactory } = require('botbuilder')
+
 const data = require('./default-data.json')
 
 const pickRan = (items) => items && items[Math.floor(Math.random()*items.length)]
@@ -19,16 +21,6 @@ const format = (...params) => {
   return fstr
 }
 
-function makeImgMsg(img) {
-  return img.url
-}
-
-async function asyncForEach(array, callback) {
-  for (let index = 0; index < array.length; index++) {
-    await callback(array[index], index, array);
-  }
-}
-
 class MessagePrinter {
   constructor() {
     this._answers = data
@@ -43,11 +35,9 @@ class MessagePrinter {
       }
     }
 
-    this.printImgs = async (ctx, imgs) => {
-      let imgMsgs = imgs.map(makeImgMsg)
-      asyncForEach(imgMsgs, async i => {
-        await ctx.sendText(i)
-      })
+    this.printImgs = async (ctx, imgs, text) => {
+      let imgMsgs = MessageFactory.list(imgs.map(ctx.makeImgMsg), text)
+      await ctx.sendText(imgMsgs)
     }
   }
 }

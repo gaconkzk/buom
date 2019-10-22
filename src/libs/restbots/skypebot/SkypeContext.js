@@ -1,5 +1,5 @@
 const Context = require('bottender/dist/context/Context').default
-
+const { MessageFactory, CardFactory } = require('botbuilder')
 /**
  * In Skype, we need to use `  \n` for line break
  * @param {String} str
@@ -7,9 +7,12 @@ const Context = require('bottender/dist/context/Context').default
 function fixLineBreak(msg) {
   if (typeof msg === 'string') {
     return msg.replace(/\n/g, '  \n')
-  } else {
-    return msg.text.replace(/\n/g, '  \n')
+  } else if (msg.text) {
+    msg.text = msg.text.replace(/\n/g, '  \n')
+    return msg
   }
+
+  return msg
 }
 
 class SkypeContext extends Context {
@@ -49,14 +52,8 @@ class SkypeContext extends Context {
    */
   _addMention(msg) {
     let user = this._session.user || {}
-    if (!this.event.isMention) {
-      return msg.replace(`<@${user.id}>`, `${user.name || 'You'}`)
-    }
 
-    let text = msg.text
-    if (typeof msg === 'string') {
-      text = msg.replace(`<@${user.id}>`, `<at>${user.name}</at>`)
-    }
+    let text = msg.text.replace(`<@${user.id}>`, `<at>${user.name}</at>`)
 
     let jsonMsg = {
       text,
@@ -72,11 +69,20 @@ class SkypeContext extends Context {
       ]
     }
 
-    return jsonMsg
+    return Object.assign(msg, jsonMsg)
   }
 
   get platform() {
     return 'skype'
+  }
+
+  makeImgMsg(img) {
+    return Object.assign(CardFactory.heroCard(
+      img.name || '',
+      img.address || img.link,
+      CardFactory.images([img.url]),
+      []
+    ), img)
   }
 
   static make(ctx, event) {

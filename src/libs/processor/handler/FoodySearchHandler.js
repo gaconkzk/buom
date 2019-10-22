@@ -2,15 +2,8 @@ const axios = require('axios')
 
 const { getRandomArrayElements } = require('./Utils')
 
-class GoogleSearchHandler {
+class FoodySearchHandler {
   constructor(envs, printer) {
-    this._googleApis = {
-      cx: envs.searchEngineId,
-      key: envs.apiKey,
-      searchType: 'image',
-      fields: 'items(link, mime)'
-    }
-
     this._api = axios.create({ baseURL: envs.baseURL })
 
     this._printer = printer
@@ -18,20 +11,13 @@ class GoogleSearchHandler {
     this.go = async (ctx) => {
       let entities = ctx.intent._rawEntities
 
-      let query = this._getQuery(entities.query || [])
+      let query = `Quán nhậu ${this._getQuery(entities.query || [])}`.trimRight()
 
-      if (!query) {
-        ctx.intent = { type: 'unknown' }
-        await this._printer.print(ctx, { text: 'tìm hình gì dzậy anh?' })
-
-        return
-      }
-
-      this._printer.print(ctx, { text: `chờ em xí, đang kiếm hình \`${query}\` nha {}`})
+      // this._printer.print(ctx, { text: `chờ em xí, đang kiếm hình \`${query}\` nha {}`})
       let quatities = this._getQuatities(entities.number || [])
       let logic = this._getLogic(entities.logic || [])
 
-      await this._findImage(ctx, query, quatities, logic)
+      await this._findDrinkLocation(ctx)
     }
   }
 
@@ -79,25 +65,37 @@ class GoogleSearchHandler {
     return imgs
   }
 
-  async _findImage(ctx, query, quatities, logic) {
+  async _findDrinkLocation(ctx, query, quatities, logic) {
     let params = {
-      params: Object.assign({ q: query }, this._googleApis)
+      params: {
+        provinceId: 217,
+        term: 'Quán nhậu'
+      }
     }
 
     let response = await this._api.get('', params)
     if (response) {
-      let images = this._takeByLogic(logic, quatities, response.data.items || [])
-      if (!images || !images.length) {
-        await this._printer.print(ctx, { text: 'hong có hình là hong có hình!!!' })
+      let items = response.data
+      let location = items.filter(i => i.category === "Quán nhậu")
+        .map(i => ({
+          name: i.name,
+          url: i.img.replace('/s50/', '/s576x330/'),
+          address: i.address,
+          link: `https://www.foody.vn${i.link}`
+        }))
 
+      location = this._takeByLogic(logic, quatities, location || [])
+
+      if (!location || !location.length) {
+        await this._printer.print(ctx)
         return
       }
 
-      await this._printer.printImgs(ctx, images.map(i => ({ url: i.link, mime: i.mime, link: i.link })), 'hình về hình về')
+      await this._printer.printImgs(ctx, location, 'trên fút đi nói quán này nè')
     } else {
-      await this._printer.print(ctx, { text: 'hong có hình là hong có hình!!!' })
+      await this._printer.print(ctx)
     }
   }
 }
 
-module.exports = GoogleSearchHandler
+module.exports = FoodySearchHandler

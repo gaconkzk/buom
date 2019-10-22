@@ -1,6 +1,6 @@
 const pascalCase = require('pascal-case')
 
-const { SlackEvent } = require('bottender')
+const { SlackEvent, SlackContext } = require('bottender')
 
 // grouping special events with common ones
 const groups = [
@@ -21,3 +21,13 @@ groups.forEach(o => {
     })
   })
 })
+
+SlackContext.prototype.makeImgMsg = (img) => {
+  return Object.assign(img, {
+    fallback: img.name || '',
+    pretext: img.address || img.link,
+    title: img.name,
+    title_link: img.link,
+    image_url: img.url
+  })
+}
